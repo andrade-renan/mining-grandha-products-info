@@ -9,7 +9,6 @@ data = {
     "Linha": [],
     "Valor": [],
     "Descrição Geral": [],
-    "Código": [],
     "Código de Barras": [],
     "Modo de Uso": [],
     "Composição": [],
@@ -26,7 +25,7 @@ if response.status_code == 200:
     soup = BeautifulSoup(response.text, 'html.parser')
 
     # Usando o seletor CSS para encontrar o link dentro do primeiro elemento específico
-    product_element = soup.select_one('div.application > main > div > div > div > div.col-content > div.catalog-content > div > ul > li:nth-of-type(9) > div > div.image > a')
+    product_element = soup.select_one('div.application > main > div > div > div > div.col-content > div.catalog-content > div > ul > li:nth-of-type(11) > div > div.image > a')
     if product_element and product_element.has_attr('href'):
         product_link = product_element['href']
         print("Link encontrado:", product_link)
@@ -52,15 +51,18 @@ if response.status_code == 200:
             product_price = soup.select_one('#variacaoPreco').get_text(strip=True)
 
             # Capturando a descrição geral do produto
-            # TODO
+            product_description = soup.select_one("#descricao")
 
-            # Acessando a aba de ficha técnica do produto
-            technicalSheet_element = soup.select_one('#product-wrapper > div.product-tabs > ul > li:nth-child(2) > a')
-            if technicalSheet_element and technicalSheet_element.has_attr('href'):
-                technicalSheet_link = technicalSheet_element['href']
-                print("Link Encontrado:", technicalSheet_link)
+            # Capturando o Modo de uso do produto
+            product_mode = soup.select_one("#AbaPersonalizadaConteudo9")
+            
+            # Capturando o código de barras do produto
+            product_ean = soup.select_one('#datasheet > .table-overflow')
 
-            # Capturando o Código do Produto
+
+            # Capturando a composição dos produtos
+
+            product_composition = ','.join(tree.xpath('//*[@id="AbaPersonalizadaConteudo13"]/div/p[2]/text()'))
 
 
             if product_line_element:
@@ -71,11 +73,10 @@ if response.status_code == 200:
             data["REF"].append(product_ref)
             data["Linha"].append(product_line)
             data["Valor"].append(product_price)
-            data["Código"].append("")
-            data["Código de Barras"].append("")
-            data["Modo de Uso"].append("")
-            data["Composição"].append("")
-            data["Descrição Geral"].append("")
+            data["Código de Barras"].append(product_ean)
+            data["Modo de Uso"].append(product_mode)
+            data["Composição"].append(product_composition)
+            data["Descrição Geral"].append(product_description)
         
         else:
             print(f"Erro ao carregar a página do link: Status {response_link.status_code}")
@@ -91,4 +92,4 @@ print(data["Linha"])
 print(data["Valor"])
 df = pd.DataFrame(data)
 
-df.to_csv("Produtos da Grandha.csv", index=False, sep=";")
+df.to_csv("data/Produtos da Grandha.csv", index=False, sep=";")
