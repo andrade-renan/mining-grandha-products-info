@@ -46,7 +46,8 @@ for page in range(1, 12):
                     product_price = soup.select_one('#variacaoPreco').get_text(strip=True)
                     product_description = soup.select_one("#descricao").text
                     product_mode = soup.select_one("#AbaPersonalizadaConteudo9").text
-                    product_ean = soup.select_one('table tr:nth-child(2) td:nth-child(2)').get_text(strip=True)
+                    product_ean = f"'{soup.select_one('table tr:nth-child(2) td:nth-child(2)').get_text(strip=True)}"
+                    print(product_ean)
 
                     tree = etree.HTML(response_link.text)
                     product_line_elements = tree.xpath('//*[@id="product-wrapper"]/div[1]/div[2]/div[3]/strong/text()')
