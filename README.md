@@ -45,10 +45,12 @@ grandha_product_scraper/
 │   │   └── Product_Name/
 │   └── Produtos_da_Grandha.csv
 ├── grandha_combined_scraper.py
+├── grandha_scrapper.py
+├── grandha_img_scrapper.py
 └── README.md
 ```
 
-> _Note:_ There are other files, but they were used for study and prototype.
+> _Note:_ The files `grandha_scraper.py` and `grandha_img_scraper.py` were used for study and prototype.
 
 ## Usage
 
