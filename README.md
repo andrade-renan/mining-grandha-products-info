@@ -1,68 +1,73 @@
-# Grandha Products Scraper
+# Grandha Product Scraper
 
 > _Note:_ This README was generated with ChatGPT
 
-## Overview
-
-This Python script is designed to scrape product information from Grandha's online store. It navigates through multiple pages, extracting details such as product reference, name, line, price, general description, barcode, usage mode, composition, and the product link.
+This project is a scraper to collect information and images of products listed on the Grandha website. The script accesses product pages, extracts detailed data and images, and organizes this information into a CSV file and image subfolders.
 
 ## Features
 
-- **Automated Pagination Handling:** The script iterates through 12 pages of the product listing.
-- **Data Extraction:** Retrieves comprehensive details for each product listed on the website.
-- **Resilience:** Includes error handling for network requests and gracefully handles missing data.
-- **Data Storage:** Collects all the data into a CSV file for easy analysis and storage.
+- **Data Extraction**: Collects detailed information on each product, including name, reference, line, price, description, barcode, usage instructions, composition, and product link.
+- **Image Extraction**: Downloads all product images and stores them in subfolders organized by the product name.
+- **Data Structure**: The data is saved in a CSV file in the `data/` directory, while images are stored in subfolders within `data/images`.
 
-## Prerequisites
+## Requirements
 
-To run this script, you need Python installed on your system along with the following Python libraries:
+- Python 3.10+
+- Required libraries:
+  - `requests`
+  - `pandas`
+  - `beautifulsoup4`
+  - `lxml`
 
-- `requests` for making HTTP requests.
-- `BeautifulSoup` from `bs4` for parsing HTML content.
-- `lxml` for XPath selections and parsing.
-- `pandas` for organizing the data into a structured format and saving it to CSV.
+### Install Dependencies
 
-## Installation
-
-First, ensure you have Python installed. Then, install the required Python libraries using pip:
+Install dependencies by running:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## Usage
+> **Note**: Create a `requirements.txt` file with the following content:
+>
+> ```
+> requests
+> pandas
+> beautifulsoup4
+> lxml
+> ```
 
-1. **Set Up the URL**: Modify the `base_url` variable if needed to point to the correct section of the Grandha store.
-2. **Run the Script**: Execute the script by running:
+## Project Structure
 
-```bash
-python grandha_scraper.py
+```plaintext
+grandha_product_scraper/
+├── data/
+│   ├── images/
+│   │   └── Product_Name/
+│   └── Produtos_da_Grandha.csv
+├── grandha_combined_scraper.py
+└── README.md
 ```
 
-3. **Check Output**: After execution, the script will save the product data to a CSV file named `Produtos da Grandha.csv` in the 'data' directory.
+> _Note:_ There are other files, but they were used for study and prototype.
 
-## CSV File Format
+## Usage
 
-The output CSV file will contain the following columns:
+1. Place the `grandha_combined_scraper.py` script in your local environment.
+2. In the terminal, run the script:
 
-- `REF`: Product reference ID.
-- `Nome do Produto`: Name of the product.
-- `Linha`: Product line.
-- `Valor`: Price of the product.
-- `Descrição Geral`: General description of the product.
-- `Código de Barras`: Barcode of the product.
-- `Modo de Uso`: How to use the product.
-- `Composição`: Product composition.
-- `Link do Produto`: URL link to the product page.
+   ```bash
+   python grandha_combined_scraper.py
+   ```
 
-## Error Handling
+3. The script will:
 
-The script includes basic error handling for HTTP request failures and will output errors to the console.
+   - Go through all specified product pages.
+   - Extract data for each product and save it in the `data/Produtos_da_Grandha.csv` file.
+   - Create a subfolder for each product in `data/images/` where it will save the respective images.
 
-## License
+4. Check the CSV file and downloaded images in the `data/` directory.
 
-This project is open-source and available under the MIT License.
+## Notes
 
-## Contributing
-
-Contributions are welcome. Please fork the repository and submit a pull request with your features or fixes.
+- Ensure a stable internet connection, as the script relies on HTTP requests to access data.
+- Script execution may take some time, depending on the number of products and your internet speed.
